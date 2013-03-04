@@ -7,6 +7,7 @@
 # Visit http://www.pragmaticprogrammer.com/titles/rails4 for more book information.
 #---
 class LineItemsController < ApplicationController
+  skip_before_filter :authorize
   # GET /line_items
   # GET /line_items.json
   def index
@@ -50,7 +51,7 @@ class LineItemsController < ApplicationController
   def create
     @cart = current_cart
     product = Product.find(params[:product_id])
-    @line_item = @cart.line_items.build
+    @line_item = @cart.add_product(product.id)
     @line_item.product = product
 
     respond_to do |format|
